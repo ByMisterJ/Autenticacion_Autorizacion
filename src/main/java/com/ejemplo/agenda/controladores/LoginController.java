@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 public class LoginController {
 
     @Autowired
-    JWTAuthenticationConfig jwtAuthtenticationConfig;
+    JWTAuthenticationConfig jwtAuthenticationConfig;
 
     @PostMapping("login")
     public String login(
@@ -22,7 +22,7 @@ public class LoginController {
         if (!(username.equals(Constans.USER) && encryptedPass.equals(Constans.PASS))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials");
         }
-        String token = jwtAuthtenticationConfig.getJWTToken(username);
+        String token = jwtAuthenticationConfig.getJWTToken(username);
         return token;
     }
 }

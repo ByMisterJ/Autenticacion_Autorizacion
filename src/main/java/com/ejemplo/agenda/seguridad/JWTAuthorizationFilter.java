@@ -43,7 +43,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    private boolean isJWTValid(HttpServletRequest request, HttpServletResponse res) {
+    private boolean isJWTValid(HttpServletRequest request) {
         String authenticationHeader = request.getHeader(HEADER_AUTHORIZACION_KEY);
         if (authenticationHeader == null || !authenticationHeader.startsWith(TOKEN_BEARER_PREFIX))
             return false;
@@ -53,7 +53,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            if (isJWTValid(request, response)) {
+            if (isJWTValid(request)) {
                 Claims claims = setSigningKey(request);
                 if (claims.get("authorities") != null) {
                     setAuthentication(claims);
